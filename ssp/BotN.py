@@ -18,8 +18,12 @@ class BotN(Bot):
     def distance_l1(self, position, r):
         d = 0
         if r > 1:
-            for neighbor in self._grid.neighbors(position):
+            neighbors = self._grid.neighbors(position)
+            c = 0
+            for neighbor in neighbors:
                 d += self.distance_l1(neighbor, r - 1)
+                c += 1
+            d *= 1.0/c
         else:
             d += Bot.distance_l1(self, position)
         return d
