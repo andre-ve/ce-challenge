@@ -8,10 +8,14 @@ class GraphGrid:
         self._gg = nx.generators.lattice.grid_2d_graph(n, n)
         nx.set_node_attributes(self._gg, True, 'free')
     
-    def initial_position(self, bot):
+    def initial_position(self):
         pos_y = randint(0, self._n - 1)
+        trials = 0
         while not(self._gg.nodes[(pos_y, 0)]['free']):
+            trials += 1
             pos_y = randint(0, self._n - 1)
+            if trials > 100:
+                return (-1, 0)
         return (pos_y, 0)
 
     def new_position(self, bot):
@@ -28,6 +32,9 @@ class GraphGrid:
         
     def set_position_busy(self, position):
         self._gg.nodes[position]['free'] = False
+        
+    def is_position_busy(self, position):
+        return not self._gg.nodes[position]['free']
         
     def draw_grid(self):
         last_i = 0

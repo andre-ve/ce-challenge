@@ -1,10 +1,16 @@
 
 class Bot:
 
-    def __init__(self, grid):
+    def __init__(self, grid, spawn_time, initial_position, o_penalty=0):
         self._grid = grid
-        self._position = self._grid.initial_position(self)
+        self._position = initial_position
         self._grid.set_position_busy(self._position)
+        self._spawn_time = spawn_time
+        self._type = '-'
+        self._o_penalty = o_penalty
+        
+    def get_type(self):
+        return self._type
         
     def set_position(self, position):
         self._grid.set_position_free(self._position)
@@ -15,11 +21,13 @@ class Bot:
         self._destination = self._grid.get_random_destination()
         
     def ordered_positions(self):
-        paths = []
-        for neighbor in self._grid.neighbors(self._position):
-            paths.append((neighbor, len(self._grid.shortest_path(source = neighbor, target = self._destination))))
-        paths = sorted(paths, key=lambda path: path[1])
-        return [neighbor[0] for neighbor in paths]
+        pass
+        
+    def distance_l1(self, position):
+        d = 0
+        for i in range(len(self._position)):
+            d += abs(self._destination[i] - position[i]) + self._o_penalty*self._grid.is_position_busy(position)
+        return d
         
     def move(self):
         self._grid.new_position(self)
@@ -30,3 +38,6 @@ class Bot:
             self._grid.set_position_free(self._position)
             return True
         return False
+        
+    def age(self, current_iteration):
+        return current_iteration - self._spawn_time
