@@ -6,6 +6,7 @@ class Experiment:
     
     def __init__(self, exp_id, logger, grid_size = 10, initial_bots = 10, spawn_rate = 1, iterations = 1000, o_penalty = 0, bot_r = 1):
         self._grid = GraphGrid(grid_size)
+        self._size = grid_size ** 2
         self._spawn_rate = spawn_rate
         self._iterations = iterations
         self._bot_r = bot_r
@@ -23,6 +24,8 @@ class Experiment:
         
     def run(self, grid_wait=False):
         for i in range(self._iterations):
+            if len(self._bots) == self._size:
+                break
             iter_start_time = time.time()
             for bot in self._bots:
                 bot.move()
