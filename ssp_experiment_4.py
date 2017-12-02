@@ -6,8 +6,8 @@ import sys
 exp_logger = Logger(sys.argv[1])
 initial_bots_values = [10, 20, 50, 100]
 spawn_rate_values = [1, 2, 3, 5, 8, 10, 15, 20]
-o_penalty_values = list(range(10))
-bot_r_values = list(range(10))
+o_penalty_values = range(10)
+bot_r_values = range(6)
 
 i = 0
 for initial_bots_e, spawn_rate_e, o_penalty_e, bot_r_e in product(initial_bots_values, spawn_rate_values, o_penalty_values, bot_r_values):
